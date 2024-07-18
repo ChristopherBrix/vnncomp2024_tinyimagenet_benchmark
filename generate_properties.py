@@ -128,7 +128,7 @@ def create_vnnlib(args, dataset):
 
     normalize = lambda X: (X - mu) / std
 
-    np.random.seed(args.seed)
+    random.seed(args.seed)
     random.shuffle(dataset)
     dataset = dataset[:args.selected_instances]
 
@@ -157,9 +157,10 @@ def create_vnnlib(args, dataset):
         write.writerows(instance_list)
 
 if __name__ == '__main__':
+    assert len(sys.argv) == 2, "call as `python generate_properties.py SEED`"
     parser = argparse.ArgumentParser()
-    parser.add_argument('seed', type=int, default=0, help='random seed.') # seed for points selection
     args = parser.parse_args()
+    args.seed = int(sys.argv[1])
     args.epsilons = "1/255"
     args.mode = "generate_vnnlib_csv"
     vnnlib_path = "generated_vnnlib"
